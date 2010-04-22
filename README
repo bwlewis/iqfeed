@@ -1,0 +1,28 @@
+The iqfeed package provides a basic TCP/IP interface between R and DTN
+IQFeed. It requires TCP/IP access to IQFeed. The package only contains
+a few basic functions for historic LI stock and equity options. We plan
+on added Level II and more Level I functions in the near future. The
+packages returns all time series data in xts format.
+
+Example:
+require(iqfeed)
+iqConf()
+t0 <- "2010-01-18 15:25:00"
+t1 <- "2010-01-22 10:00:00"
+trades <- HIT("MSFT",interval=60,start=t0,end=t1)
+
+# Options chain lookup example
+symbols <- CEO("MSFT")
+symbols
+ [1] "MSQ1022E25" "MSQ1022E26" "MSQ1022E27" "MSQ1022E28" "MSQ1022E29"
+ [6] "MSQ1022E30" "MSQ1022E31" "MSQ1022E32" "MSQ1022E33" "MSQ1022E34"
+[11] "MSQ1022E35" "MSQ1022Q25" "MSQ1022Q26" "MSQ1022Q27" "MSQ1022Q28"
+[16] "MSQ1022Q29" "MSQ1022Q30" "MSQ1022Q31" "MSQ1022Q32" "MSQ1022Q33"
+[21] "MSQ1022Q34" "MSQ1022Q35"
+
+# Convert to standard OSI format (e.g., for use by a broker), and back:
+osi(symbols[1])
+[1] "MSQ   100522C00025000"
+osi2iq(.Last.value)
+[1] "MSQ1022E25"
+
