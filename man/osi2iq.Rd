@@ -25,7 +25,7 @@ IQFeed will abondon older-style symbols at some point in 2010, making this
 function obsolete.
 }
 \seealso{
-\ref{\code{osi}}
+\code{\link{osi}}
 }
 \examples{
 require(iqfeed)

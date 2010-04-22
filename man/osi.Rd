@@ -32,7 +32,7 @@ IQFeed will abondon older-style symbols at some point in 2010, making this
 function obsolete.
 }
 \seealso{
-\ref{\code{osi2iq}}
+{\code{\link{osi2iq}}}
 }
 \examples{
 require(iqfeed)

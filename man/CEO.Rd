@@ -35,7 +35,7 @@ B. W. Lewis
 }
 
 \seealso{
-\ref{\code{osi}}
+{\code{\link{osi}}}
 }
 \examples{
 require('iqfeed')
