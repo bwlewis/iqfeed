@@ -56,7 +56,7 @@ osi2iq <- function(symbol)
   r <- vector('list',rlen)
   r[j] <- list(dat)
   while(length(dat)>0) {
-    socketSelect(list(.iqEnv$con[[2]]),timeout=2)
+    socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
     dat <- tryCatch(readBin(con, 'raw', n=4096), error=function(e){})
     j <- j + 1
     if(j>rlen) {
