@@ -52,5 +52,5 @@ require("iqfeed")
 iqConf()
 t0 <- "2010-01-18 15:25:00"
 t1 <- "2010-01-22 10:00:00"
-trades <- HIT("MSFT",interval=60,start=t0,end=t1)
+HIT("MSFT",interval=3600,start=t0,end=t1)
 }

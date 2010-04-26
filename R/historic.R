@@ -1,15 +1,28 @@
 `HIT` <- 
   function(symbol, interval=3600,start,end,beginFilterTime="",endFilterTime="", tz="EDT")
 {
-  .iqConnect()
-  con <- .iqEnv$con[[2]]
   start <- format(as.POSIXct(start,tz=tz),"%Y%m%d %H%M%S")
   end <- format(as.POSIXct(end,tz=tz),"%Y%m%d %H%M%S")
   cmd <- paste("HIT",symbol, interval, start, end, "", beginFilterTime,
                 endFilterTime, 0, "\r\n",sep=",")
-#  socketSelect(list(con), write=TRUE)
-  cat(cmd, file=con)
-  .getHistoricData()
+  rpt <- TRUE
+  while(rpt) {
+    rpt <- FALSE
+    tryCatch(
+     {
+      .iqConnect()
+      con <- .iqEnv$con[[2]]
+      socketSelect(list(con),write=TRUE)
+      cat(cmd, file=con)
+      retval <- .getHistoricData()
+     },
+    error=function(e)
+     {
+               warning("YIKES")
+               rpt <<-TRUE
+     })
+  }
+  retval
 }
 
 .getHistoricData <- function() 
