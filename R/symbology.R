@@ -3,7 +3,7 @@
   .iqConnect()
   con <- .iqEnv$con[[2]]
   cmd <- paste("CEO",symbol, pc, monthCodes, near, "\r\n",sep=",")
-#  socketSelect(list(con), write=TRUE)
+  socketSelect(list(con), write=TRUE, timeout=.iqEnv$timeout)
   cat(cmd, file=con)
   .getChainData()
 }

@@ -5,7 +5,7 @@ function(host='localhost', ports=list(5009,9100,9200))
 # Stash state in the redis enivronment describing this connection:
   assign('host',host,envir=.iqEnv)
   assign('ports',ports,envir=.iqEnv)
-  assign('timeout',5,envir=.iqEnv)
+  assign('timeout',7,envir=.iqEnv)
   invisible()
 }
 
