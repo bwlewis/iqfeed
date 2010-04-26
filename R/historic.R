@@ -5,10 +5,7 @@
   end <- format(as.POSIXct(end,tz=tz),"%Y%m%d %H%M%S")
   cmd <- paste("HIT",symbol, interval, start, end, "", beginFilterTime,
                 endFilterTime, 0, "\r\n",sep=",")
-  rpt <- TRUE
   retval <- NULL
-  rpt <- FALSE
-  numTry <- 1
   tryCatch(
      {
       .iqConnect()
