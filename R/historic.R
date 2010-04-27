@@ -55,8 +55,10 @@
     z[,5] <- as.numeric(z[,5])
     z[,6] <- as.numeric(z[,7])
     z <- z[,1:6]
-    colnames(z)<-c("Date","High","Low","Open","Close","Volume")
-    z <- xts(z[,2:6],order.by=z[,1])
+    if(ncol(z)==6) {
+      colnames(z)<-c("Date","High","Low","Open","Close","Volume")
+      z <- xts(z[,2:6],order.by=z[,1])
+    }
   },error=function(e) warning(e))
   z
 }
