@@ -55,6 +55,7 @@ osi2iq <- function(symbol)
   j <- 1
   r <- vector('list',rlen)
   r[j] <- list(dat)
+  if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   while(length(dat)>0) {
     socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
     dat <- tryCatch(readBin(con, 'raw', n=4096), error=function(e){})
@@ -64,6 +65,7 @@ osi2iq <- function(symbol)
       length(r) <- rlen
     }
     r[j] <- list(dat)
+    if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   }
   .iqClose()
   r <- do.call(c,r)

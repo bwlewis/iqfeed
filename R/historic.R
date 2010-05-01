@@ -8,7 +8,7 @@
   retval <- NULL
   tryCatch(
      {
-      .iqConnect()
+      .iqConnect(.iqEnv$ports[[2]])
       con <- .iqEnv$con[[2]]
       socketSelect(list(con),write=TRUE,timeout=.iqEnv$timeout)
       cat(cmd, file=con)
@@ -27,6 +27,7 @@
   j <- 1
   r <- vector('list',rlen)
   r[j] <- list(dat)
+  if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   while(length(dat)>0) {
     socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
     dat <- tryCatch(readBin(con, 'raw', n=65536), error=function(e) warning(e))
@@ -36,6 +37,7 @@
       length(r) <- rlen
     }
     r[j] <- list(dat)
+    if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   }
   .iqClose()
   z <- NULL

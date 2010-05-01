@@ -17,11 +17,11 @@ function(timeout=5)
 }
 
 `.iqConnect` <-
-function()
+function(ports=.iqEnv$ports)
 {
   con=vector("list",length(.iqEnv$ports))
-  k <- 1
-  for(j in .iqEnv$ports){
+  for(j in ports){
+    k <- which(.iqEnv$ports == j)
     tryCatch(con[[k]] <- socketConnection(.iqEnv$host, j,open='a+b'),
               error=function(e) {invisible()})
     k <- k + 1
