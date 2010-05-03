@@ -33,6 +33,14 @@ function(ports=.iqEnv$ports)
 function()
 {
   for(x in .iqEnv$con)
-   tryCatch(close(x), error=function(e) {invisible()})
-  remove(list='con',envir=.iqEnv)
+   tryCatch(
+    {
+     close(x)
+    }, error=function(e) {invisible()})
+   tryCatch(
+    {
+      remove(list='con',envir=.iqEnv)
+    }, error=function(e) invisible(),
+       warning=function(e) invisible()
+   )
 }
