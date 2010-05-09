@@ -18,7 +18,9 @@ A character: "p" for put options, "c" for call options, "pc" for both kinds.
 }
   \item{monthCodes}{
 Ignored if the near options is used. Otherwise, IQfeed month code (A-L for
-January-December call options, and M-X for Jan-Dec put options).
+January-December call options, and M-X for Jan-Dec put options). You can
+also specify a signle numeric month here to retrieve both call and put options
+for that month.
 }
   \item{near}{
 Specify the number of months to cover (1 for options expiration within the next

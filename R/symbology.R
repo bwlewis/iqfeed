@@ -2,6 +2,11 @@
 {
   .iqConnect()
   con <- .iqEnv$con[[2]]
+# Check for a numeric month and convert to IQfeed month codes
+  if(is.numeric(monthCodes)){
+    monthCodes <- paste(LETTERS[c(monthCodes, 12 + monthCodes)],collapse="")
+    near <- NULL
+  }
   cmd <- paste("CEO",symbol, pc, monthCodes, near, "\r\n",sep=",")
   socketSelect(list(con), write=TRUE, timeout=.iqEnv$timeout)
   cat(cmd, file=con)
@@ -11,6 +16,7 @@
 # Convert from IQFeed to OPRA OSI option symbol format
 osi <- function(symbol)
 {
+  retval <- c()
   s <- sub("([A-Z]*)[0-9]*[A-X][0-9.]*$","\\1",symbol,extend=TRUE)
   m <- sub("[A-Z]*[0-9]*([A-X])[0-9.]*$","\\1",symbol,extend=TRUE)
   yd <- sub("[A-Z]*([0-9]*)[A-X][0-9.]*$","\\1",symbol,extend=TRUE)
@@ -18,16 +24,20 @@ osi <- function(symbol)
   y <- as.integer(sub("(..).*$","\\1",yd,extend=TRUE))
   p <- as.numeric(sub("([A-Z]*[0-9]*[A-X])([0-9.]*)$","\\2",symbol,extend=TRUE))
   s <- strtrim(sprintf("%s      ",s),6)
-  t <- "P"
-  if(m < "M") t <- "C"
-  m <- which(LETTERS==m) %% 12
-  m <- m + (m==0)*12
-  y <- sprintf("%02.0f",y)
-  m <- sprintf("%02.0f",m)
-  d <- sprintf("%02.0f",d)
-  p1 <- sprintf("%05.0f",p)
-  p2 <- sub(".*[.]","",sprintf("%0.3f",p))
-  paste(s,y,m,d,t,p1,p2,sep="")
+  for(j in 1:length(m)) {
+    T <- "P"
+    if(m[[j]] < "M") T <- "C"
+    M <- which(LETTERS==m[[j]]) %% 12
+    M <- M + (M==0)*12
+    Y <- sprintf("%02.0f",y[[j]])
+    M <- sprintf("%02.0f",M)
+    D <- sprintf("%02.0f",d[[j]])
+    p1 <- sprintf("%05.0f",p[[j]])
+    p2 <- sub(".*[.]","",sprintf("%0.3f",p[[j]]))
+    S <- s[[j]]
+    retval <- c(retval, paste(S,Y,M,D,T,p1,p2,sep=""))
+  }
+  retval
 }
 
 # This one converts back to IQFeed symbology:
