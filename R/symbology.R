@@ -17,12 +17,12 @@
 osi <- function(symbol)
 {
   retval <- c()
-  s <- sub("([A-Z]*)[0-9]*[A-X][0-9.]*$","\\1",symbol,extend=TRUE)
-  m <- sub("[A-Z]*[0-9]*([A-X])[0-9.]*$","\\1",symbol,extend=TRUE)
-  yd <- sub("[A-Z]*([0-9]*)[A-X][0-9.]*$","\\1",symbol,extend=TRUE)
-  d <- as.integer(sub("..(.*)$","\\1",yd,extend=TRUE))
-  y <- as.integer(sub("(..).*$","\\1",yd,extend=TRUE))
-  p <- as.numeric(sub("([A-Z]*[0-9]*[A-X])([0-9.]*)$","\\2",symbol,extend=TRUE))
+  s <- sub("([A-Z]*)[0-9]*[A-X][0-9.]*$","\\1",symbol)
+  m <- sub("[A-Z]*[0-9]*([A-X])[0-9.]*$","\\1",symbol)
+  yd <- sub("[A-Z]*([0-9]*)[A-X][0-9.]*$","\\1",symbol)
+  d <- as.integer(sub("..(.*)$","\\1",yd))
+  y <- as.integer(sub("(..).*$","\\1",yd))
+  p <- as.numeric(sub("([A-Z]*[0-9]*[A-X])([0-9.]*)$","\\2",symbol))
   s <- strtrim(sprintf("%s      ",s),6)
   for(j in 1:length(m)) {
     T <- "P"
@@ -43,14 +43,14 @@ osi <- function(symbol)
 # This one converts back to IQFeed symbology:
 osi2iq <- function(symbol)
 {
-  s <- sub("^(......).*$","\\1",symbol,extended=TRUE)
-  s <- sub("[[:blank:]].*","",s,extended=TRUE)
-  y <- sub("^......(..).*$","\\1",symbol,extended=TRUE)
-  m <- as.integer(sub("^........(..).*$","\\1",symbol,extended=TRUE))
-  d <- sub("^..........(..).*$","\\1",symbol,extended=TRUE)
-  t <- sub("^............(.).*$","\\1",symbol,extended=TRUE)
-  p1 <- as.numeric(sub("^.............(.....).*$","\\1",symbol,extended=TRUE))
-  p2 <- as.numeric(sub("^..................(...)$","\\1",symbol,extended=TRUE))
+  s <- sub("^(......).*$","\\1",symbol)
+  s <- sub("[[:blank:]].*","",s)
+  y <- sub("^......(..).*$","\\1",symbol)
+  m <- as.integer(sub("^........(..).*$","\\1",symbol))
+  d <- sub("^..........(..).*$","\\1",symbol)
+  t <- sub("^............(.).*$","\\1",symbol)
+  p1 <- as.numeric(sub("^.............(.....).*$","\\1",symbol))
+  p2 <- as.numeric(sub("^..................(...)$","\\1",symbol))
   p <- p1 + p2/1000
   m <- LETTERS[m + (t=="P")*12]
   paste(s,y,d,m,p,sep="")

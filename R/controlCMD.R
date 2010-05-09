@@ -23,7 +23,8 @@ function(ports=.iqEnv$ports)
   for(j in ports){
     k <- which(.iqEnv$ports == j)
     tryCatch(con[[k]] <- socketConnection(.iqEnv$host, j,open='a+b'),
-              error=function(e) {invisible()})
+              error=function(e) {invisible()},
+              warning=function(e) {invisible()})
     k <- k + 1
   }
   assign('con',con,envir=.iqEnv)
