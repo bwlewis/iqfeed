@@ -1,6 +1,6 @@
 # This file contains various control functions.
 `iqConf` <-
-function(host='localhost', ports=list(5009,9100,9200))
+function(host='localhost', ports=list(level1=5009,historic=9100,level2=9200))
 {
 # Stash state in the redis enivronment describing this connection:
   assign('host',host,envir=.iqEnv)
