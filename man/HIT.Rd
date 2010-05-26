@@ -9,7 +9,7 @@ Retrieves historic interval bars within a given time interval for
 the specified symbol.
 }
 \usage{
-HIT(symbol, interval = 3600, start, end, beginFilterTime = "", endFilterTime = "", tz="EDT")
+HIT(symbol, interval = 3600, start, end, beginFilterTime = "", endFilterTime = "", tz="America/New_York")
 }
 \arguments{
   \item{symbol}{
@@ -25,13 +25,13 @@ The starting date/time or just date.
 The ending date/time or just date.
 }
   \item{beginFilterTime}{
-The beginning time of day (EST) in the form "HHmmSS" (leave blank for all day).
+The beginning time of day (America/New_York) in the form "HHmmSS" (leave blank for all day).
 }
   \item{endFilterTime}{
-The ending time of day (EST) in the form "HHmmSS" (leave blank for all day).
+The ending time of day (America/New_York) in the form "HHmmSS" (leave blank for all day).
 }
   \item{tz}{
-The timezone code (defaults to "EDT").
+The timezone code (defaults to "America/New_York").
 }
 }
 \details{

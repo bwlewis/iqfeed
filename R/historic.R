@@ -1,5 +1,5 @@
 `HIT` <- 
-  function(symbol, interval=3600,start,end=format(Sys.time(),format="%Y-%m-%d"),beginFilterTime="",endFilterTime="", tz="EDT")
+  function(symbol, interval=3600,start,end=format(Sys.time(),format="%Y-%m-%d"),beginFilterTime="",endFilterTime="", tz="America/New_York")
 {
   start <- format(as.POSIXct(start,tz=tz),"%Y%m%d %H%M%S")
   end <- format(as.POSIXct(end,tz=tz),"%Y%m%d %H%M%S")
@@ -19,7 +19,7 @@
 }
 
 `HTT` <- 
-  function(symbol,start,end=format(Sys.time(),format="%Y-%m-%d"),beginFilterTime="",endFilterTime="", tz="EDT")
+  function(symbol,start,end=format(Sys.time(),format="%Y-%m-%d"),beginFilterTime="",endFilterTime="", tz="America/New_York")
 {
   start <- format(as.POSIXct(start,tz=tz),"%Y%m%d %H%M%S")
   end <- format(as.POSIXct(end,tz=tz),"%Y%m%d %H%M%S")
