@@ -32,12 +32,17 @@ osi <- function(symbol)
     Y <- sprintf("%02.0f",y[[j]])
     M <- sprintf("%02.0f",M)
     D <- sprintf("%02.0f",d[[j]])
-    p1 <- sprintf("%05.0f",p[[j]])
+    p1 <- sprintf("%05.0f",floor(p[[j]]))
     p2 <- sub(".*[.]","",sprintf("%0.3f",p[[j]]))
     S <- s[[j]]
     retval <- c(retval, paste(S,Y,M,D,T,p1,p2,sep=""))
   }
   retval
+}
+
+isOSI <- function(symbol)
+{
+  nchar(symbol) == 21
 }
 
 # This one converts back to IQFeed symbology:
