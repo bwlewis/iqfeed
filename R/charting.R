@@ -22,7 +22,7 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1)
   }
   for(j in D){
     i <- which((format(index(x),"%h %d")==j))
-    y <- as.numeric(x[i,'Close'])
+    y <- as.numeric(x[i])
     lines(i, y, col=col, lwd=lwd, lty=lty)
   }
   axis(side=1,at=hat,labels=FALSE,col="#555555",lwd.ticks=1)
