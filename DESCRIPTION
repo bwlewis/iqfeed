@@ -1,8 +1,8 @@
 Package: iqfeed
 Type: Package
 Title: IQFeed client for R
-Version: 0.1
-Date: 2010-01-26
+Version: 0.2
+Date: 2010-05-26
 Author: B. W. Lewis
 Maintainer: B. W. Lewis <blewis@illposed.net>
 Description: IQFeed interface routines  
