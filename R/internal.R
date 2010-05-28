@@ -7,3 +7,16 @@
 {
   stop(msg)
 }
+
+.iqBlock <- function(con, write=TRUE)
+{
+  ret <- TRUE
+  tryCatch(
+    socketSelect(list(con), write=write, timeout=.iqEnv$timeout),
+    error=function(e) {print(e);ret <<- FALSE}
+  )
+  if(ret == FALSE)
+    tryCatch(close(con),error=function(e) invisible())
+  ret
+}
+

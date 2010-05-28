@@ -3,45 +3,37 @@
 function(host='localhost', ports=list(level1=5009,historic=9100,level2=9200))
 {
 # Stash state in the redis enivronment describing this connection:
+  con <- vector("list",length=length(ports))
+  names(con) <- names(ports)
   assign('host',host,envir=.iqEnv)
   assign('ports',ports,envir=.iqEnv)
+  assign('con',con,envir=.iqEnv)
   assign('timeout',7,envir=.iqEnv)
   invisible()
 }
 
 `iqTimeout` <-
-function(timeout=5)
+function(timeout=7)
 {
   assign('timeout',timeout,envir=.iqEnv)
   invisible()
 }
 
+# Connect to a single port
 `.iqConnect` <-
-function(ports=.iqEnv$ports)
+function(port)
 {
-  con=vector("list",length(.iqEnv$ports))
-  for(j in ports){
-    k <- which(.iqEnv$ports == j)
-    tryCatch(con[[k]] <- socketConnection(.iqEnv$host, j,open='a+b'),
-              error=function(e) {invisible()},
-              warning=function(e) {invisible()})
-    k <- k + 1
-  }
-  assign('con',con,envir=.iqEnv)
+  port <- port[[1]]
+  .iqEnv$con[port][[1]] <- socketConnection(.iqEnv$host, .iqEnv$ports[port][[1]],open='a+b')
 }
 
+# Close a port
 `.iqClose` <- 
-function()
+function(port)
 {
-  for(x in .iqEnv$con)
-   tryCatch(
-    {
-     close(x)
-    }, error=function(e) {invisible()})
-   tryCatch(
-    {
-      remove(list='con',envir=.iqEnv)
-    }, error=function(e) invisible(),
-       warning=function(e) invisible()
-   )
+  port <- port[[1]]
+  tryCatch(
+     close(.iqEnv$con[port][[1]]),
+     error=function(e) invisible()
+  )
 }

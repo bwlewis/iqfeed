@@ -1,14 +1,14 @@
 `CEO` <- function(symbol,pc="pc",monthCodes="",near=1)
 {
-  .iqConnect()
-  con <- .iqEnv$con[[2]]
+  .iqConnect("historic")
+  con <- .iqEnv$con["historic"][[1]]
 # Check for a numeric month and convert to IQfeed month codes
   if(is.numeric(monthCodes)){
     monthCodes <- paste(LETTERS[c(monthCodes, 12 + monthCodes)],collapse="")
     near <- NULL
   }
   cmd <- paste("CEO",symbol, pc, monthCodes, near, "\r\n",sep=",")
-  socketSelect(list(con), write=TRUE, timeout=.iqEnv$timeout)
+  if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)
   cat(cmd, file=con)
   .getChainData()
 }
@@ -63,8 +63,8 @@ osi2iq <- function(symbol)
 
 .getChainData <- function() 
 {
-  con <- .iqEnv$con[[2]]
-  socketSelect(list(.iqEnv$con[[2]]))
+  con <- .iqEnv$con["historic"][[1]]
+  if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
   dat <- tryCatch(readBin(con, 'raw', n=4096), error=function(e){})
   rlen <- 50
   j <- 1
@@ -72,7 +72,7 @@ osi2iq <- function(symbol)
   r[j] <- list(dat)
   if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   while(length(dat)>0) {
-    socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
+    if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
     dat <- tryCatch(readBin(con, 'raw', n=4096), error=function(e){})
     j <- j + 1
     if(j>rlen) {
@@ -82,7 +82,7 @@ osi2iq <- function(symbol)
     r[j] <- list(dat)
     if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   }
-  .iqClose()
+  .iqClose("historic")
   r <- do.call(c,r)
   r <- rawToChar(r)
   r <- unlist(strsplit(r,"\r\n"))[1]

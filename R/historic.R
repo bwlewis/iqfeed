@@ -8,13 +8,13 @@
   retval <- NULL
   tryCatch(
      {
-      .iqConnect(.iqEnv$ports$historic)
-      con <- .iqEnv$con[[2]]
-      socketSelect(list(con),write=TRUE,timeout=.iqEnv$timeout)
+      .iqConnect("historic")
+      con <- .iqEnv$con["historic"][[1]]
+      if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)
       cat(cmd, file=con)
       retval <- .getHistoricData(tz=tz)
      },
-     error=function(e) {.iqClose(); warning(e)})
+     error=function(e) {.iqClose("historic"); warning(e)})
   retval
 }
 
@@ -28,20 +28,20 @@
   retval <- NULL
   tryCatch(
      {
-      .iqConnect(.iqEnv$ports$historic)
-      con <- .iqEnv$con[[2]]
-      socketSelect(list(con),write=TRUE,timeout=.iqEnv$timeout)
+      .iqConnect("historic")
+      con <- .iqEnv$con["historic"][[1]]
+      if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)
       cat(cmd, file=con)
       retval <- .getTickData(tz)
      },
-     error=function(e) {.iqClose(); warning(e)})
+     error=function(e) {.iqClose("historic"); warning(e)})
   retval
 }
 
 .getHistoricData <- function(tz)
 {
-  con <- .iqEnv$con[[2]]
-  socketSelect(list(con),timeout=.iqEnv$timeout)
+  con <- .iqEnv$con["historic"][[1]]
+  if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
   dat <- tryCatch(readBin(con, 'raw', n=65536), error=function(e) warning(e))
   rlen <- 50
   j <- 1
@@ -49,7 +49,7 @@
   r[j] <- list(dat)
   if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   while(length(dat)>0) {
-    socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
+    if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
     dat <- tryCatch(readBin(con, 'raw', n=65536), error=function(e) warning(e))
     j <- j + 1
     if(j>rlen) {
@@ -59,7 +59,7 @@
     r[j] <- list(dat)
     if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   }
-  .iqClose()
+  .iqClose("historic")
   z <- NULL
   tryCatch({
     r <- do.call(c,r)
@@ -87,8 +87,8 @@
 
 .getTickData <- function(tz)
 {
-  con <- .iqEnv$con[[2]]
-  socketSelect(list(con),timeout=.iqEnv$timeout)
+  con <- .iqEnv$con["historic"][[1]]
+  if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
   dat <- tryCatch(readBin(con, 'raw', n=65536), error=function(e) warning(e))
   rlen <- 50
   j <- 1
@@ -96,7 +96,7 @@
   r[j] <- list(dat)
   if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   while(length(dat)>0) {
-    socketSelect(list(.iqEnv$con[[2]]),timeout=.iqEnv$timeout)
+    if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
     dat <- tryCatch(readBin(con, 'raw', n=65536), error=function(e) warning(e))
     j <- j + 1
     if(j>rlen) {
@@ -106,7 +106,7 @@
     r[j] <- list(dat)
     if(grepl("!ENDMSG!", rawToChar(dat), useBytes=TRUE)) dat <- NULL
   }
-  .iqClose()
+  .iqClose("historic")
   z <- NULL
   tryCatch({
     r <- do.call(c,r)
