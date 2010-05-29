@@ -26,13 +26,14 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
     M = format(index(x)[mat],"%h")
     axis(side=1,at=mat,labels=FALSE)
     abline(v=mat,lwd=1,col="#aabbff")
-    mtext(M, side=1,at=mat,line=0,cex=0.75)
     if(length(yat)>0) {
       Y = format(index(x)[yat],"%Y")
       mtext(Y, side=1,at=yat,line=1,cex=1)
     }
-    if(length(M)<4)
+    if(length(Y)<4) {
+      mtext(M, side=1,at=mat,line=0,cex=0.75)
       axis(side=1,at=at,labels=FALSE,col="#555555",lwd.ticks=1)
+    }
     lines(1:length(index(x)),x,col=col,lwd=lwd,lty=lty)
     return(invisible())
   }
