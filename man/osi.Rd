@@ -7,12 +7,11 @@ Convert from IQFeed to OSI standard option symbol
 Convert an older-style symbol to the standard OSI format.
 }
 \usage{
-osi(symbol)
+osi(symbol, compressed = FALSE)
 }
 \arguments{
-  \item{symbol}{
-An older-style option symbol.
-}
+  \item{symbol}{An older-style option symbol.}
+  \item{compressed}{Set to TRUE to condense retun value by omitting interior spaces.}
 }
 \details{
 As of April 2010, IQFeed still uses older-syle option symbols for some

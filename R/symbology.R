@@ -14,7 +14,7 @@
 }
 
 # Convert from IQFeed to OPRA OSI option symbol format
-osi <- function(symbol)
+osi <- function(symbol, compressed=FALSE)
 {
   retval <- c()
   s <- sub("([A-Z]*)[0-9]*[A-X][0-9.]*$","\\1",symbol)
@@ -23,7 +23,10 @@ osi <- function(symbol)
   d <- as.integer(sub("..(.*)$","\\1",yd))
   y <- as.integer(sub("(..).*$","\\1",yd))
   p <- as.numeric(sub("([A-Z]*[0-9]*[A-X])([0-9.]*)$","\\2",symbol))
-  s <- strtrim(sprintf("%s      ",s),6)
+  if(compressed)
+    s <- sprintf("%s",s)
+  else
+    s <- strtrim(sprintf("%s      ",s),6)
   for(j in 1:length(m)) {
     T <- "P"
     if(m[[j]] < "M") T <- "C"

@@ -6,8 +6,10 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
   plot(p, axes=FALSE, type='l', col="#eeeeee",ylab="Close", main=title, xlab='',
        xlim=xlim, ylim=ylim)
   box()
-  axis(side=2,pretty(p))
-  axis(side=4,pretty(p))
+  yax = pretty(p)
+  if(!is.null(ylim)) yax = pretty(ylim)
+  axis(side=2,yax)
+  axis(side=4,yax)
   at = endpoints(x,on="days") + 1 
   if(at[length(at)] > length(x))
     at = at[-length(at)]
@@ -30,7 +32,7 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
       Y = format(index(x)[yat],"%Y")
       mtext(Y, side=1,at=yat,line=1,cex=1)
     }
-    if(length(Y)<4) {
+    if(length(Y)<3) {
       mtext(M, side=1,at=mat,line=0,cex=0.75)
       axis(side=1,at=at,labels=FALSE,col="#555555",lwd.ticks=1)
     }
