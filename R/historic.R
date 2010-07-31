@@ -38,7 +38,24 @@
   retval
 }
 
-.getHistoricData <- function(tz)
+`HDX` <- 
+  function(symbol,days,tz="")
+{
+  cmd <- paste("HDX",symbol,days=0,"\r\n",sep=",")
+  retval <- NULL
+  tryCatch(
+     {
+      .iqConnect("historic")
+      con <- .iqEnv$con["historic"][[1]]
+      if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)
+      cat(cmd, file=con)
+      retval <- .getHistoricData(tz=tz,volcol=6)
+     },
+     error=function(e) {.iqClose("historic"); warning(e)})
+  retval
+}
+
+.getHistoricData <- function(tz,volcol=7)
 {
   con <- .iqEnv$con["historic"][[1]]
   if(.iqBlock(con,write=FALSE)==FALSE) return(NULL)
@@ -75,7 +92,7 @@
     z[,3] <- as.numeric(z[,3])
     z[,4] <- as.numeric(z[,4])
     z[,5] <- as.numeric(z[,5])
-    z[,6] <- as.numeric(z[,7])
+    z[,6] <- as.numeric(z[,volcol])
     z <- z[,1:6]
     if(ncol(z)==6) {
       colnames(z)<-c("Date","High","Low","Open","Close","Volume")
