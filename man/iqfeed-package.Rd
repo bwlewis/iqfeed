@@ -30,6 +30,9 @@ t1 <- "2010-01-22 10:00:00"
 trades <- HIT("MSFT",interval=60,start=t0,end=t1)
 trades
 
+daily <- HDX("XOM",days=14)
+daily
+
 # Options chain lookup example
 symbols <- CEO("MSFT")
 symbols
