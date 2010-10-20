@@ -22,7 +22,7 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
   yat = endpoints(x,on="years") + 1 
   if(yat[length(yat)] > length(x))
     yat = yat[-length(yat)]
-  abline(h=pretty(p),lwd=1,col="#aabbff")
+  abline(h=yax,lwd=1,col="#aabbff")
   if(length(mat)>0) {
 # Plot a whole year or more of data
     M = format(index(x)[mat],"%h")
