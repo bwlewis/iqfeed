@@ -7,14 +7,15 @@ Configure IQFeed connection
 Configure the host and port numbers for an IQFeed connection.
 }
 \usage{
-iqConf(host = "localhost", ports = list(5009, 9100, 9200))
+iqConf(host = "localhost", ports = list(level1=5009,historic=9100,level2=9200))
 }
 \arguments{
   \item{host}{
 The host name or (character) I.P. address of the IQFeed.
 }
   \item{ports}{
-The IQFeed real-time, historic Level I, and historic Level II data ports (in that order!).
+The IQFeed real-time, historic Level I, and historic Level II data ports. They
+must be named 'level1' 'historic' and 'level2'!
 }
 }
 \details{
