@@ -4,8 +4,13 @@
   con <- .iqEnv$con["historic"][[1]]
 # Check for a numeric month and convert to IQfeed month codes
   if(is.numeric(monthCodes)){
-    monthCodes <- paste(LETTERS[c(monthCodes, 12 + monthCodes)],collapse="")
-    near <- NULL
+    if(pc=="p")
+      monthCodes <- paste(LETTERS[12 + monthCodes],collapse="")
+    else if(pc=="c")
+      monthCodes <- paste(LETTERS[c(monthCodes)],collapse="")
+    else
+      monthCodes <- paste(LETTERS[c(monthCodes, 12 + monthCodes)],collapse="")
+    near <- ""
   }
   cmd <- paste("CEO",symbol, pc, monthCodes, near, "\r\n",sep=",")
   if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)

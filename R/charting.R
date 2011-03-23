@@ -23,8 +23,8 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
   if(yat[length(yat)] > length(x))
     yat = yat[-length(yat)]
   abline(h=yax,lwd=1,col="#aabbff")
-  if(length(mat)>0) {
-# Plot a whole year or more of data
+  if(length(mat)>1) {
+# Plot a whole month or more of data
     M = format(index(x)[mat],"%h")
     axis(side=1,at=mat,labels=FALSE)
     abline(v=mat,lwd=1,col="#aabbff")
@@ -40,6 +40,7 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL)
     return(invisible())
   }
   D = unique(format(index(x)[at],"%h %d"))
+  D = D[!is.na(D)]
   axis(side=1,at=at,labels=D)
   abline(v=at,lwd=1,col="#aabbff")
   if(length(D)<2) {

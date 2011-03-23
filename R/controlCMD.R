@@ -24,7 +24,14 @@ function(timeout=7)
 function(port)
 {
   port <- port[[1]]
-  .iqEnv$con[port][[1]] <- socketConnection(.iqEnv$host, .iqEnv$ports[port][[1]],open='a+b')
+# R Windows appears to suffer from a serious problem affecting non-blocking
+# connections and readBin with raw data, see:
+# http://www.mail-archive.com/r-devel@r-project.org/msg16420.html.
+# we force blocking connections on Windows systems.
+  if(Sys.info()[[1]] == "Windows")
+    .iqEnv$con[port][[1]] <- socketConnection(.iqEnv$host, .iqEnv$ports[port][[1]],open='a+b', blocking=TRUE)
+  else
+    .iqEnv$con[port][[1]] <- socketConnection(.iqEnv$host, .iqEnv$ports[port][[1]],open='a+b')
 }
 
 # Close a port
