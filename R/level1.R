@@ -1,3 +1,6 @@
+# Warning, this may change!
+.quoteFields <- c( 'Type', 'Symbol', 'Exchange ID', 'Last', 'Change', 'Percent Change', 'Total Volume', 'Incremental Volume', 'High', 'Low', 'Bid', 'Ask', 'Bid Size', 'Ask Size', 'Tick', 'Bid Tick', 'Range', 'Last Trade Time', 'Open Interest', 'Open', 'Close', 'Spread', 'Strike', 'Settle', 'Delay', 'Market Center', 'Restricted code', 'Net Asset Value', 'Average Maturity', 'Seven Day Yield', 'Last Trade Date', '(Reserved)', 'Extended Trading Last', 'Expiration Date', 'Regional Volume', 'Net Asset Value 2', 'Extended Trading Volume', 'Extended Trading Difference', 'Price-Earnings Ratio', 'Percent Off Average Volumn', 'Bid Change', 'Ask Change', 'Change From Open', 'Market Open', 'Volatility', 'Market Cap', 'Fraction Display Code', 'Decimal Precision', 'Days to Expiration', 'Previous Day Volumn', 'Regions', 'OpenRange1', 'CloseRange1', 'OpenRage2', 'CloseRange2', 'Number of Trades Today', 'Bid Time', 'Ask Time', 'VWAP', 'TickID', 'Financial Status Indicator', 'Settlement Date')
+
 `iqQuote` <- 
   function(symbol, type="P", limit=10)
 {
@@ -10,6 +13,7 @@
       if(.iqBlock(con,write=TRUE)==FALSE) return(NULL)
       cat(cmd, file=con)
       retval <- .getQuote(type=type,sym=symbol,limit=limit)
+      names(retval) <- .quoteFields
      },
      error=function(e) {.iqClose("level1"); warning(e)})
   retval
