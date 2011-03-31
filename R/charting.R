@@ -52,15 +52,16 @@ crapmod = function(x, title="", col=4, lwd=2, lty=1, xlim=NULL, ylim=NULL, ...)
     mtext(H, side=1,at=hat,line=0,cex=0.75)
     abline(v=hat,lwd=1,col="#aabbff")
   }
-  if(length(D)>1) {
-    for(j in seq(1,length(D)-1)){
-      i1 <- which((format(index(x),"%h %d")==D[j]))
-      i2 <- which((format(index(x),"%h %d")==D[j+1]))
-      y1 <- as.numeric(x[i1])
-      y2 <- as.numeric(x[i2])
-      lines(c(i1,i2), c(y1,y2), col=col, lwd=lwd, lty=lty)
-    }
-  }
+  lines(1:length(index(x)),x,col=col,lwd=lwd,lty=lty)
+#  if(length(D)>1) {
+#    for(j in seq(1,length(D)-1)){
+#      i1 <- which((format(index(x),"%h %d")==D[j]))
+#      i2 <- which((format(index(x),"%h %d")==D[j+1]))
+#      y1 <- as.numeric(x[i1])
+#      y2 <- as.numeric(x[i2])
+#      lines(c(i1,i2), c(y1,y2), col=col, lwd=lwd, lty=lty)
+#    }
+#  }
 # If a week or less, show hourly ticks
   if(length(D)<7)
     axis(side=1,at=hat,labels=FALSE,col="#555555",lwd.ticks=1)
