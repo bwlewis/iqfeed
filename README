@@ -1,3 +1,8 @@
+PLEASE NOTE
+
+As you can see from the dates on the commit log, I no longer maintain this package (and in fact do not have access to DTN). I'm leaving this code here for others to use and extend as the see fit.
+
+
 The iqfeed package provides a basic TCP/IP interface between R and DTN
 IQFeed. It requires TCP/IP access to IQFeed. The package only contains
 a few basic functions for historic LI stock and equity options. We plan
